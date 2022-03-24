@@ -6,6 +6,7 @@
 package edu.ito.tecnm.oaxaca.examenunidad1.controller;
 
 import edu.ito.tecnm.oaxaca.examenunidad1.model.AlumnoModel;
+import edu.ito.tecnm.oaxaca.examenunidad1.repository.AlumnoRepository;
 import edu.ito.tecnm.oaxaca.examenunidad1.service.AlumnoService;
 import edu.ito.tecnm.oaxaca.examenunidad1.utils.CustomResponse;
 import java.util.HashMap;
@@ -47,18 +48,25 @@ public class AlumnoController {
     public ResponseEntity<Map<String,String>> getICA(@ModelAttribute AlumnoModel alumno){
         
         alumnoService.createAlumno(alumno);
-    
-        double ICA = alumno.getMedidaCintura() / alumno.getMedidaAltura();
+        alumno = alumnoService.getAlumno(alumno.getNumControl());
+        if(alumno.getMedidaCintura()==0 || alumno.getMedidaCintura()==null){
+        
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
+        
+        int ICA = alumno.getMedidaCintura() / alumno.getMedidaAltura();
         
         String niveles[] = {"Obesidad mórbida", "Sobrepeso elevado", "Sobrepeso",
                 "Peso normal", "Delgadez leve", "Delgadez severa"};
-        double hombre[] = {0.63, 0.58, 0.53, 0.43, 0.35, 0};
-        double mujer[] = {0.58, 0.54, 0.49, 0.42, 0.35, 0};
+        int hombre[] = {63, 58, 53, 43, 35, 0};
+        int mujer[] = {58, 54, 49, 42, 35, 0};
         String resultado = "";
+        AlumnoModel al;
         
-        double indices[];
         
-        if(alumno.getGenero() == "H"){
+        int indices[];
+        
+        if(alumno.getGenero().equals("H")){
             indices = hombre;
         }else{
         
@@ -75,7 +83,8 @@ public class AlumnoController {
         map.put("resultado", resultado);
         map.put("status", "OK");
         return new ResponseEntity<>(map, HttpStatus.OK);
-    }*/
+    }
+*/
     
     @GetMapping("/{numControl}")
     public CustomResponse getAlumno(@PathVariable String numControl){
