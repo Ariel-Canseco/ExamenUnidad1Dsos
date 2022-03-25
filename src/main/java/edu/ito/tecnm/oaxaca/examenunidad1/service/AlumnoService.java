@@ -6,21 +6,40 @@
 package edu.ito.tecnm.oaxaca.examenunidad1.service;
 
 import edu.ito.tecnm.oaxaca.examenunidad1.model.AlumnoModel;
+import edu.ito.tecnm.oaxaca.examenunidad1.repository.AlumnoRepository;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Jester
  */
-public interface AlumnoService {
+@Service
+public class AlumnoService {
     
-    public void createAlumno(AlumnoModel alumno);
-    
-    public List getAlumnos();
-    
-    public AlumnoModel getAlumno(String numControl);
-    
-    public void updateAlumno(AlumnoModel alumnoModel, Integer idAlumno);
-    
-    public void deleteAlumno(Integer idAlumno);
+@Autowired
+    private AlumnoRepository alumnoRepository;
+
+    public AlumnoModel createAlumno(AlumnoModel alumno) {
+        return alumnoRepository.save(alumno);
+    }
+
+    public List getAlumnos() {
+        return alumnoRepository.findAll();
+    }
+
+    public Optional<AlumnoModel> getAlumno(String numControl) {
+        return alumnoRepository.findByNumControl(numControl);
+    }
+
+    public void updateAlumno(AlumnoModel alumnoModel, Integer idAlumno) {
+        alumnoModel.setIdAlumno(idAlumno);
+        alumnoRepository.save(alumnoModel);
+    }
+
+    public void deleteAlumno(Integer idAlumno) {
+        alumnoRepository.deleteById(idAlumno);
+    }
 }

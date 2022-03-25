@@ -1,6 +1,7 @@
 package edu.ito.tecnm.oaxaca.examenunidad1.repository;
 
 import edu.ito.tecnm.oaxaca.examenunidad1.model.AlumnoModel;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AlumnoRepository extends JpaRepository<AlumnoModel, Integer>{
-    public AlumnoModel findByNumControl(String numControl);
+    public Optional<AlumnoModel> findByNumControl(String numControl);
 }

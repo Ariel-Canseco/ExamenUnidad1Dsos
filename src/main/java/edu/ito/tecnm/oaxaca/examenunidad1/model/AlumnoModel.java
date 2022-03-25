@@ -19,6 +19,7 @@ public class AlumnoModel implements Serializable{
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idAlumno;
+    @Column( unique = true, length = 8)
     private String numControl;
     private String genero;
     private Integer medidaCintura;
